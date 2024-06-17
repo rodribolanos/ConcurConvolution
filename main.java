@@ -3,14 +3,17 @@ import java.io.File;
 class            concurrente {
 
     public static void main(String[] args) throws InterruptedException {
-        ThreadPool threadPool = new ThreadPool(10, 4);
+        int cantidadWorkers = 3;
+        WorkersCounter workersCounter = new WorkersCounter(cantidadWorkers);
+        ThreadPool threadPool = new ThreadPool(10, cantidadWorkers, workersCounter);
         File carpeta = new File("./assets");
-        if (carpeta.exists() && carpeta.isDirectory()) {
-            File[] archivos = carpeta.listFiles();
-            for (File imagen : archivos) {
-                threadPool.launch(new FilterTask(imagen));
-            }
-            threadPool.stop();
+        File[] archivos = carpeta.listFiles();
+        long startTime = System.currentTimeMillis();
+        for (File imagen : archivos) {
+            threadPool.launch(new FilterTask(imagen));
         }
+        threadPool.stop();
+        workersCounter.finish();
+        System.out.println("Tiempo total de ejecución: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 }
