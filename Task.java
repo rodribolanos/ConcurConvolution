@@ -7,13 +7,16 @@ import java.awt.image.WritableRaster;
 class concurrente {
 
     public static void main(String[] args) {
-        File imagen = new File("./assets/Lebron.jpg");
-        Task tarea = new Task(imagen);
-        tarea.run();
+        File carpeta = new File("./assets");
+        if (carpeta.exists() && carpeta.isDirectory()) {
+            File[] archivos = carpeta.listFiles();
+        for (File imagen : archivos) {
+            Task tarea = new Task(imagen);
+            tarea.run();    
+            }
+        }
     }
-
 }
-
 
 public class Task implements Runnable {
     private final File inputFile;
@@ -33,7 +36,11 @@ public class Task implements Runnable {
         try {
             BufferedImage image = ImageIO.read(inputFile);
             BufferedImage resultImage = applyLaplacianFilter(image);
-            File outputFile = new File("salida.jpg");
+            File carpetaSalida = new File("./carpeta_salida");
+            if (!carpetaSalida.exists()) {
+                carpetaSalida.mkdirs(); // Crea la carpeta si no existe
+            }
+            File outputFile = new File(carpetaSalida, "Salida_" + inputFile.getName());
             ImageIO.write(resultImage, "jpg", outputFile);
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,5 +74,4 @@ public class Task implements Runnable {
         return outputImage;
     }
 }
-
 
