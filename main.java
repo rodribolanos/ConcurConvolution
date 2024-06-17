@@ -3,9 +3,9 @@ import java.io.File;
 class            concurrente {
 
     public static void main(String[] args) throws InterruptedException {
-        int cantidadWorkers = 3;
+        int cantidadWorkers = 1000;
         WorkersCounter workersCounter = new WorkersCounter(cantidadWorkers);
-        ThreadPool threadPool = new ThreadPool(10, cantidadWorkers, workersCounter);
+        ThreadPool threadPool = new ThreadPool(1, cantidadWorkers, workersCounter);
         File carpeta = new File("./assets");
         File[] archivos = carpeta.listFiles();
         long startTime = System.currentTimeMillis();
