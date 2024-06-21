@@ -21,7 +21,7 @@ public class FilterTask implements Runnable {
     public void run() {
         try {
             BufferedImage image = ImageIO.read(inputFile);
-            BufferedImage resultImage = applyLaplacianFilter(image);
+            BufferedImage resultImage = applySobelFilter(image);
             File carpetaSalida = new File("./carpeta_salida");
             if (!carpetaSalida.exists()) {
                 carpetaSalida.mkdirs(); // Crea la carpeta si no existe
@@ -33,7 +33,7 @@ public class FilterTask implements Runnable {
         }
     }
 
-    private BufferedImage applyLaplacianFilter(BufferedImage image) {
+    private BufferedImage applySobelFilter(BufferedImage image) {
         WritableRaster raster = image.getRaster();
         int ancho = raster.getWidth();
         int alto = raster.getHeight();

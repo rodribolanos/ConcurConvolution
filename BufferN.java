@@ -18,7 +18,7 @@ public class BufferN {
     }
 
     public synchronized Runnable read() throws InterruptedException {
-        while (end == begin) {
+        while (this.isEmpty()) {
             wait();
         }
         Runnable aux = data[end];
